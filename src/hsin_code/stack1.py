@@ -29,12 +29,42 @@ nclass = 3
 #test = pd.read_csv('./test_lon_lat_median.csv', index_col = 0)
 
 
-## situation3: predicted lon lat
-#train = pd.read_csv('./train_lon_lat_predicted.csv', index_col = 0)
-#test = pd.read_csv('./test_lon_lat_predicted.csv', index_col = 0)
+# situation3: xgb predicted lon lat
+#train = pd.read_csv('./train_lon_lat_xgb_predicted.csv', index_col = 0)
+#test = pd.read_csv('./test_lon_lat_xgb_predicted.csv', index_col = 0)
 
-train = pd.read_hdf('./train_one_hot.h5')
-test = pd.read_hdf('./test_one_hot.h5')
+# situation4: nn predicted lon lat
+train = pd.read_csv('./train_lon_lat_nn_predicted.csv', index_col = 0)
+test = pd.read_csv('./test_lon_lat_nn_predicted.csv', index_col = 0)
+
+
+#drop_list = [
+#                'funder',
+#                'installer',
+#                'scheme_management',
+#                
+#                'basin',
+#                'region',
+#                'region_code',
+#                'district_code',
+#                'lga',
+#                'ward',
+#                
+#                'public_meeting',
+#                'permit',
+#                'payment'
+#]
+#
+#train = train.drop(drop_list, axis=1)
+#test = test.drop(drop_list, axis = 1)
+
+
+
+
+
+### situation5: one hot
+#train = pd.read_hdf('./train_one_hot.h5')
+#test = pd.read_hdf('./test_one_hot.h5')
 
 
 
@@ -65,18 +95,19 @@ rf_classifier = RandomForestClassifier(
                                         n_estimators = 500, 
                                         min_samples_leaf = 5, 
                                         max_features = 0.5, 
-                                        max_depth=25
+                                        max_depth = 25
                                         )   
 
 ert_classifier = ExtraTreesClassifier(
                                         n_estimators = 400,
                                         min_samples_split = 3,
                                         max_features = 0.6,
-                                        max_depth=25
+                                        max_depth = 25
                                         )  
                             
 
 classifiers = [xgb_classifier, rf_classifier, ert_classifier]
+#classifiers = [rf_classifier, ert_classifier]
 
 
 print ("Start Stacking Models")

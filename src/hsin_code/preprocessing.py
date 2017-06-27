@@ -33,11 +33,14 @@ alldata = alldata.drop([
                         'date_recorded', 'recorded_by', 
                         'subvillage',
                         
+                        # to ber considered
+#                        'installer', 'funder', 'ward',
+                        
                         # replicated
                         'payment_type', 'management_group',
                         'quantity_group', 'quality_group',
-                        'source_type', 'source_class',
-                        'waterpoint_type_group', 'extraction_type_group'
+                        'source_type', 'source_class', 'waterpoint_type_group',
+                        'extraction_type_group','extraction_type_class'
                         
                       ], axis=1)
                       
@@ -91,7 +94,6 @@ for i in range(alldata.shape[1]):
         
     # Label Encoding
     if alldata.ix[:,i].dtypes == 'object':
-        print(alldata.columns[i])
         alldata.ix[:,i][alldata.ix[:,i] == True] = 'True'
         alldata.ix[:,i][alldata.ix[:,i] == False] = 'False'
         le.fit(alldata.ix[:,i])
@@ -112,7 +114,8 @@ test = alldata.ix[train.shape[0]:alldata.shape[0],:]
 # filter out area feature
 area_feature = [
             'latitude', 'longitude', 'region', 'region_code',
-            'district_code', 'lga', 'ward', 'gps_height'
+            'district_code', 'lga', 'gps_height',
+            'ward'
             ]
          
 

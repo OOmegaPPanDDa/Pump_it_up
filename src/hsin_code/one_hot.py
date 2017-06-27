@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """
 Created on Sun Jun 25 03:23:50 2017
-
 @author: HSIN
 """
 
