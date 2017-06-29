@@ -1,0 +1,5 @@
+numpy
+sklearn
+xgboost
+pandas
+bayesian-optimization
