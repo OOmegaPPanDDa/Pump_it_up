@@ -1,11 +1,11 @@
 import pandas as pd
 import numpy as np
-import time
+#import time
 from sklearn.preprocessing import LabelEncoder
 
-train=pd.read_csv('./train.csv')
-test=pd.read_csv('./test.csv')
-outcome=pd.read_csv('./train_l.csv')
+train=pd.read_csv('./data/train.csv')
+test=pd.read_csv('./data/test.csv')
+outcome=pd.read_csv('./data/train_label.csv')
 
 trainum=train.shape[0]
 alldata=pd.concat([train,test],axis=0,ignore_index=True)
@@ -26,13 +26,19 @@ alldata['population']=alldata['population'].astype('float64')
 alldata['gps_height']=alldata['gps_height'].astype('float64') 
 alldata['construction_year']=alldata['construction_year'].astype('float64')
 
+
+
+
+
 le=LabelEncoder()
 nullct=np.zeros(alldata.shape[1])
-for i in xrange(alldata.shape[1]):
+for i in range(alldata.shape[1]):
     nullct[i]=sum(pd.isnull(alldata.ix[:,i]))    
     if (nullct[i]>0) & (alldata.columns[i]!='longitude') & (alldata.columns[i]!='latitude'):
         alldata.ix[pd.isnull(alldata.ix[:,i]),i]="Other"   
-    if alldata.ix[:,i].dtypes=='object':        
+    if alldata.ix[:,i].dtypes=='object':
+        alldata.ix[:,i][alldata.ix[:,i] == True] = 'True'
+        alldata.ix[:,i][alldata.ix[:,i] == False] = 'False'
         le.fit(alldata.ix[:,i])
         alldata.ix[:,i]=le.transform(alldata.ix[:,i])   
 
@@ -43,27 +49,26 @@ train=alldata.ix[0:trainum-1,:]
 test=alldata.ix[trainum:alldata.shape[0],:]
         
 areacol=['latitude','longitude','region','region_code','district_code','lga','ward','gps_height']
-lontrain=alldata.ix[pd.notnull(alldata['latitude']),areacol]
-lontarget=lontrain['latitude']
+lontrain=alldata.ix[pd.notnull(alldata['longitude']),areacol]
+lontarget=lontrain['longitude']
 lontrain=lontrain.drop(['longitude','latitude'],axis=1)
-lontest=alldata.ix[pd.isnull(alldata['latitude']),areacol]
+lontest=alldata.ix[pd.isnull(alldata['longitude']),areacol]
 lontest=lontest.drop(['longitude','latitude'],axis=1)
 
-## create latitude predict data
-lattrain=alldata.ix[pd.notnull(alldata['longitude']),areacol]
-lattarget=lattrain['longitude']
+lattrain=alldata.ix[pd.notnull(alldata['latitude']),areacol]
+lattarget=lattrain['latitude']
 lattrain=lattrain.drop(['longitude','latitude'],axis=1)
-lattest=alldata.ix[pd.isnull(alldata['longitude']),areacol]
+lattest=alldata.ix[pd.isnull(alldata['latitude']),areacol]
 lattest=lattest.drop(['longitude','latitude'],axis=1)
 
-train.to_csv('train-c.csv')
-test.to_csv('test-c.csv')
+train.to_csv('train_na.csv')
+test.to_csv('test_na.csv')
 outcome.to_csv('target.csv')
 
-lattrain.to_csv('lat-train-c.csv')
-lattest.to_csv('lat-test-c.csv')
-lattarget.to_csv('lat-target.csv')
+lattrain.to_csv('lat_train_x.csv')
+lattest.to_csv('lat_test_x.csv')
+lattarget.to_csv('lat_target.csv')
 
-lontrain.to_csv('lon-train-c.csv')
-lontest.to_csv('lon-test-c.csv')
-lontarget.to_csv('lon-target.csv')
+lontrain.to_csv('lon_train_x.csv')
+lontest.to_csv('lon_test_x.csv')
+lontarget.to_csv('lon_target.csv')

@@ -114,7 +114,7 @@ lat_target = pd.read_csv('./lat_target.csv', index_col=0, header=None)
 
 
 def get_nn_model():
-    user_input = Input(shape=[6])
+    user_input = Input(shape=[lon_train.shape[1]])
     hidden = Dense(12,activation='relu')(user_input)
     hidden = Dense(36,activation='relu')(hidden)
     hidden = Dense(36,activation='relu')(hidden)

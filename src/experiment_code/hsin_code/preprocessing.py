@@ -28,10 +28,14 @@ alldata = pd.concat([train, test], axis=0, ignore_index = True)
 # drop unneccesary features
 alldata = alldata.drop([
                         # useless                        
-                        'id', 'num_private', 
-                        'wpt_name', 'scheme_name',
+                        'num_private', 
+                        'scheme_name',
                         'date_recorded', 'recorded_by', 
-                        'subvillage',
+                        
+                        
+                        # too detailed
+                        'id', 
+                        'wpt_name', 'subvillage',
                         
                         # to ber considered
 #                        'installer', 'funder', 'ward',

@@ -3,12 +3,11 @@ import numpy as np
 from sklearn.metrics import confusion_matrix
 from sklearn.ensemble import RandomForestClassifier
 import random
-import imp, os
 
-test = pd.read_csv("test-a.csv")
-train = pd.read_csv("train-a.csv")
-train_labs = pd.read_csv("train_l.csv")
-submission = pd.read_csv("sample_submission.csv")
+test = pd.read_csv("test_lon_lat_predicted.csv")
+train = pd.read_csv("train_lon_lat_predicted.csv")
+train_labs = pd.read_csv("./data/train_label.csv")
+submission = pd.read_csv("./data/SubmissionFormat.csv")
 
 train = train.fillna(" ")
 test = test.fillna(" ")
@@ -42,4 +41,4 @@ preds = clf.predict(test)
 pred=list(k[i] for i in preds)
 pred_t=pd.DataFrame({'id': submission["id"], "status_group": pred})
 
-pred_t.to_csv("test_lables.csv",index=False)
+pred_t.to_csv("test_label.csv",index=False)
